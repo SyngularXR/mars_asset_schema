@@ -383,6 +383,35 @@
                 }
             ]
         },
+        "VolumeFloatRange": {
+            "title": "VolumeFloatRange",
+            "description": "Represent the volume range values (Unit: M3)\n\n    ",
+            "type": "object",
+            "properties": {
+                "min": {
+                    "title": "The lower threshold of the Range",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "type": "number"
+                },
+                "max": {
+                    "title": "The upper threshold of the Range",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "type": "number"
+                }
+            },
+            "required": [
+                "min",
+                "max"
+            ],
+            "examples": [
+                {
+                    "min": 0.0001,
+                    "max": 1
+                }
+            ]
+        },
         "ThresholdRange": {
             "title": "ThresholdRange",
             "description": "Represent the threshold range values (Region of interest)\n\n    ",
@@ -436,6 +465,11 @@
                     "default": false,
                     "type": "boolean"
                 },
+                "is_remesh": {
+                    "title": "Represent the flag of applying remesh modifier (blender).",
+                    "default": true,
+                    "type": "boolean"
+                },
                 "high_res_mesh_face_num": {
                     "title": "Represent the maximum triangle face numbers of the high-resolution mesh (for baking textures).",
                     "default": 300000,
@@ -454,6 +488,23 @@
                 "smooth_level": {
                     "title": "Represent the smooth level. Higher value may lose some details on the mesh.",
                     "default": 2,
+                    "type": "integer"
+                },
+                "volume_threshold": {
+                    "title": "Represent the minimum / maximum volume threshold of the model (cubic meter)",
+                    "default": {
+                        "min": 0.0001,
+                        "max": 0.01
+                    },
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/VolumeFloatRange"
+                        }
+                    ]
+                },
+                "octree_depth": {
+                    "title": "Sets the resolution of the output. Low values will generate larger facesrelative to the input, higher values will generate a denser output.",
+                    "default": 9,
                     "type": "integer"
                 },
                 "threshold": {
@@ -712,10 +763,16 @@
                         "is_enabled_texture": true,
                         "is_image_coordinate": true,
                         "is_dominant": false,
+                        "is_remesh": true,
                         "high_res_mesh_face_num": 300000,
                         "mesh_face_num": 200000,
                         "mesh_min_component_ratio": 0.05,
                         "smooth_level": 2,
+                        "volume_threshold": {
+                            "min": 0.0001,
+                            "max": 0.01
+                        },
+                        "octree_depth": 9,
                         "threshold": {
                             "min": 8,
                             "max": 256
