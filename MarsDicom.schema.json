@@ -1,5 +1,5 @@
 {
-    "title": "MarsDicom",
+    "title": "MarsDicomModel",
     "type": "object",
     "properties": {
         "flip": {
@@ -165,6 +165,7 @@
             "type": "string"
         }
     },
+    "additionalProperties": false,
     "definitions": {
         "vectorInt3d": {
             "title": "vectorInt3d",
@@ -441,6 +442,27 @@
                 }
             ]
         },
+        "MeshModifier": {
+            "title": "MeshModifier",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "default": "remesh",
+                    "type": "string"
+                },
+                "mode": {
+                    "title": "Mode",
+                    "default": "SMOOTH",
+                    "type": "string"
+                },
+                "octree_depth": {
+                    "title": "Octree Depth",
+                    "default": 4,
+                    "type": "integer"
+                }
+            }
+        },
         "MarsDicomMeshModel": {
             "title": "MarsDicomMeshModel",
             "type": "object",
@@ -519,6 +541,15 @@
                             "$ref": "#/definitions/ThresholdRange"
                         }
                     ]
+                },
+                "modifiers": {
+                    "title": "Represent the modifiers of generating mesh.",
+                    "description": "Building segmentation mesh would involve various Mesh Modifiers",
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/MeshModifier"
+                    }
                 }
             },
             "examples": {
@@ -776,7 +807,8 @@
                         "threshold": {
                             "min": 8,
                             "max": 256
-                        }
+                        },
+                        "modifiers": []
                     },
                     "allOf": [
                         {
