@@ -448,20 +448,60 @@
             "properties": {
                 "name": {
                     "title": "Name",
-                    "default": "remesh",
                     "type": "string"
                 },
-                "mode": {
-                    "title": "Mode",
+                "triangulate_keep_custom_normals": {
+                    "title": "Triangulate Keep Custom Normals",
+                    "default": true,
+                    "type": "boolean"
+                },
+                "triangulate_ngon_method": {
+                    "title": "Triangulate Ngon Method",
+                    "default": "BEAUTY",
+                    "type": "string"
+                },
+                "triangulate_quad_method": {
+                    "title": "Triangulate Quad Method",
+                    "default": "FIXED",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ]
+        },
+        "RemeshModifier": {
+            "title": "RemeshModifier",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                },
+                "remesh_mode": {
+                    "title": "Remesh Mode",
                     "default": "SMOOTH",
                     "type": "string"
                 },
-                "octree_depth": {
-                    "title": "Octree Depth",
+                "remesh_octree_depth": {
+                    "title": "Remesh Octree Depth",
                     "default": 4,
                     "type": "integer"
+                },
+                "remesh_use_smooth_shade": {
+                    "title": "Remesh Use Smooth Shade",
+                    "default": true,
+                    "type": "boolean"
+                },
+                "remesh_use_remove_disconnected": {
+                    "title": "Remesh Use Remove Disconnected",
+                    "default": false,
+                    "type": "boolean"
                 }
-            }
+            },
+            "required": [
+                "name"
+            ]
         },
         "MarsDicomMeshModel": {
             "title": "MarsDicomMeshModel",
@@ -548,7 +588,14 @@
                     "default": [],
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/MeshModifier"
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/MeshModifier"
+                            },
+                            {
+                                "$ref": "#/definitions/RemeshModifier"
+                            }
+                        ]
                     }
                 }
             },
