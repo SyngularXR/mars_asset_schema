@@ -442,27 +442,71 @@
                 }
             ]
         },
-        "MeshModifier": {
-            "title": "MeshModifier",
+        "ModifierType": {
+            "title": "ModifierType",
+            "description": "An enumeration.",
+            "enum": [
+                "remesh",
+                "triangulate",
+                "smooth",
+                "corrective_smooth",
+                "decimate"
+            ]
+        },
+        "BaseMeshModifier": {
+            "title": "BaseMeshModifier",
             "type": "object",
             "properties": {
                 "name": {
-                    "title": "Name",
-                    "type": "string"
+                    "$ref": "#/definitions/ModifierType"
+                }
+            },
+            "required": [
+                "name"
+            ]
+        },
+        "CorrectiveSmoothModifier": {
+            "title": "CorrectiveSmoothModifier",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "$ref": "#/definitions/ModifierType"
                 },
-                "triangulate_keep_custom_normals": {
-                    "title": "Triangulate Keep Custom Normals",
+                "factor": {
+                    "title": "Factor",
+                    "default": 0.6,
+                    "type": "number"
+                },
+                "iterations": {
+                    "title": "Iterations",
+                    "default": 3,
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "name"
+            ]
+        },
+        "DecimateModifier": {
+            "title": "DecimateModifier",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "$ref": "#/definitions/ModifierType"
+                },
+                "ratio": {
+                    "title": "Ratio",
+                    "default": 0.5,
+                    "type": "number"
+                },
+                "use_collapse_triangulate": {
+                    "title": "Use Collapse Triangulate",
                     "default": true,
                     "type": "boolean"
                 },
-                "triangulate_ngon_method": {
-                    "title": "Triangulate Ngon Method",
-                    "default": "BEAUTY",
-                    "type": "string"
-                },
-                "triangulate_quad_method": {
-                    "title": "Triangulate Quad Method",
-                    "default": "FIXED",
+                "decimate_type": {
+                    "title": "Decimate Type",
+                    "default": "COLLAPSE",
                     "type": "string"
                 }
             },
@@ -475,28 +519,76 @@
             "type": "object",
             "properties": {
                 "name": {
-                    "title": "Name",
-                    "type": "string"
+                    "$ref": "#/definitions/ModifierType"
                 },
-                "remesh_mode": {
-                    "title": "Remesh Mode",
+                "mode": {
+                    "title": "Mode",
                     "default": "SMOOTH",
                     "type": "string"
                 },
-                "remesh_octree_depth": {
-                    "title": "Remesh Octree Depth",
+                "octree_depth": {
+                    "title": "Octree Depth",
                     "default": 4,
                     "type": "integer"
                 },
-                "remesh_use_smooth_shade": {
-                    "title": "Remesh Use Smooth Shade",
+                "use_smooth_shade": {
+                    "title": "Use Smooth Shade",
                     "default": true,
                     "type": "boolean"
                 },
-                "remesh_use_remove_disconnected": {
-                    "title": "Remesh Use Remove Disconnected",
+                "use_remove_disconnected": {
+                    "title": "Use Remove Disconnected",
                     "default": false,
                     "type": "boolean"
+                }
+            },
+            "required": [
+                "name"
+            ]
+        },
+        "SmoothModifier": {
+            "title": "SmoothModifier",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "$ref": "#/definitions/ModifierType"
+                },
+                "factor": {
+                    "title": "Factor",
+                    "default": 0.6,
+                    "type": "number"
+                },
+                "iterations": {
+                    "title": "Iterations",
+                    "default": 3,
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "name"
+            ]
+        },
+        "TriangulateModifier": {
+            "title": "TriangulateModifier",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "$ref": "#/definitions/ModifierType"
+                },
+                "keep_custom_normals": {
+                    "title": "Keep Custom Normals",
+                    "default": true,
+                    "type": "boolean"
+                },
+                "ngon_method": {
+                    "title": "Ngon Method",
+                    "default": "BEAUTY",
+                    "type": "string"
+                },
+                "quad_method": {
+                    "title": "Quad Method",
+                    "default": "FIXED",
+                    "type": "string"
                 }
             },
             "required": [
@@ -590,10 +682,22 @@
                     "items": {
                         "anyOf": [
                             {
-                                "$ref": "#/definitions/MeshModifier"
+                                "$ref": "#/definitions/BaseMeshModifier"
+                            },
+                            {
+                                "$ref": "#/definitions/CorrectiveSmoothModifier"
+                            },
+                            {
+                                "$ref": "#/definitions/DecimateModifier"
                             },
                             {
                                 "$ref": "#/definitions/RemeshModifier"
+                            },
+                            {
+                                "$ref": "#/definitions/SmoothModifier"
+                            },
+                            {
+                                "$ref": "#/definitions/TriangulateModifier"
                             }
                         ]
                     }
