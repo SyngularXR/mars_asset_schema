@@ -472,6 +472,11 @@
                 "name": {
                     "$ref": "#/definitions/ModifierType"
                 },
+                "smooth_type": {
+                    "title": "Smooth Type",
+                    "default": "LENGTH_WEIGHTED",
+                    "type": "string"
+                },
                 "factor": {
                     "title": "Factor",
                     "default": 0.6,
@@ -481,6 +486,11 @@
                     "title": "Iterations",
                     "default": 3,
                     "type": "integer"
+                },
+                "use_only_smooth": {
+                    "title": "Use Only Smooth",
+                    "default": true,
+                    "type": "boolean"
                 }
             },
             "required": [
@@ -551,15 +561,15 @@
                     "default": 6,
                     "type": "integer"
                 },
-                "iterations": {
-                    "title": "Iterations",
-                    "default": 4,
-                    "type": "integer"
-                },
                 "max_bumpy_height": {
                     "title": "Max Bumpy Height",
                     "default": 0.15,
                     "type": "number"
+                },
+                "iterations": {
+                    "title": "Iterations",
+                    "default": 4,
+                    "type": "integer"
                 }
             },
             "required": [
