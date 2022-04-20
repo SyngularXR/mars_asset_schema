@@ -543,6 +543,102 @@
             ],
             "additionalProperties": false
         },
+        "SmoothModifier": {
+            "title": "SmoothModifier",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "enum": [
+                        "smooth"
+                    ],
+                    "type": "string"
+                },
+                "factor": {
+                    "title": "Factor",
+                    "default": 0.6,
+                    "type": "number"
+                },
+                "iterations": {
+                    "title": "Iterations",
+                    "default": 3,
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": false
+        },
+        "CorrectiveSmoothModifier": {
+            "title": "CorrectiveSmoothModifier",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "enum": [
+                        "corrective_smooth"
+                    ],
+                    "type": "string"
+                },
+                "smooth_type": {
+                    "title": "Smooth Type",
+                    "default": "LENGTH_WEIGHTED",
+                    "type": "string"
+                },
+                "factor": {
+                    "title": "Factor",
+                    "default": 0.6,
+                    "type": "number"
+                },
+                "iterations": {
+                    "title": "Iterations",
+                    "default": 3,
+                    "type": "integer"
+                },
+                "use_only_smooth": {
+                    "title": "Use Only Smooth",
+                    "default": true,
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": false
+        },
+        "DecimateModifier": {
+            "title": "DecimateModifier",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "enum": [
+                        "decimate"
+                    ],
+                    "type": "string"
+                },
+                "ratio": {
+                    "title": "Ratio",
+                    "default": 0.5,
+                    "type": "number"
+                },
+                "use_collapse_triangulate": {
+                    "title": "Use Collapse Triangulate",
+                    "default": true,
+                    "type": "boolean"
+                },
+                "decimate_type": {
+                    "title": "Decimate Type",
+                    "default": "COLLAPSE",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": false
+        },
         "MeshModifier": {
             "title": "MeshModifier",
             "discriminator": {
@@ -550,7 +646,10 @@
                 "mapping": {
                     "remesh": "#/definitions/RemeshModifier",
                     "flatten_vertices": "#/definitions/FlattenVerticesModifier",
-                    "triangulate": "#/definitions/TriangulateModifier"
+                    "triangulate": "#/definitions/TriangulateModifier",
+                    "smooth": "#/definitions/SmoothModifier",
+                    "corrective_smooth": "#/definitions/CorrectiveSmoothModifier",
+                    "decimate": "#/definitions/DecimateModifier"
                 }
             },
             "anyOf": [
@@ -562,6 +661,15 @@
                 },
                 {
                     "$ref": "#/definitions/TriangulateModifier"
+                },
+                {
+                    "$ref": "#/definitions/SmoothModifier"
+                },
+                {
+                    "$ref": "#/definitions/CorrectiveSmoothModifier"
+                },
+                {
+                    "$ref": "#/definitions/DecimateModifier"
                 }
             ]
         },
