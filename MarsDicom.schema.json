@@ -442,95 +442,16 @@
                 }
             ]
         },
-        "ModifierType": {
-            "title": "ModifierType",
-            "description": "An enumeration.",
-            "enum": [
-                "remesh",
-                "triangulate",
-                "smooth",
-                "corrective_smooth",
-                "decimate",
-                "flatten_vertices"
-            ]
-        },
-        "BaseMeshModifier": {
-            "title": "BaseMeshModifier",
-            "type": "object",
-            "properties": {
-                "name": {
-                    "$ref": "#/definitions/ModifierType"
-                }
-            },
-            "required": [
-                "name"
-            ]
-        },
-        "CorrectiveSmoothModifier": {
-            "title": "CorrectiveSmoothModifier",
-            "type": "object",
-            "properties": {
-                "name": {
-                    "$ref": "#/definitions/ModifierType"
-                },
-                "smooth_type": {
-                    "title": "Smooth Type",
-                    "default": "LENGTH_WEIGHTED",
-                    "type": "string"
-                },
-                "factor": {
-                    "title": "Factor",
-                    "default": 0.6,
-                    "type": "number"
-                },
-                "iterations": {
-                    "title": "Iterations",
-                    "default": 3,
-                    "type": "integer"
-                },
-                "use_only_smooth": {
-                    "title": "Use Only Smooth",
-                    "default": true,
-                    "type": "boolean"
-                }
-            },
-            "required": [
-                "name"
-            ]
-        },
-        "DecimateModifier": {
-            "title": "DecimateModifier",
-            "type": "object",
-            "properties": {
-                "name": {
-                    "$ref": "#/definitions/ModifierType"
-                },
-                "ratio": {
-                    "title": "Ratio",
-                    "default": 0.5,
-                    "type": "number"
-                },
-                "use_collapse_triangulate": {
-                    "title": "Use Collapse Triangulate",
-                    "default": true,
-                    "type": "boolean"
-                },
-                "decimate_type": {
-                    "title": "Decimate Type",
-                    "default": "COLLAPSE",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "name"
-            ]
-        },
         "RemeshModifier": {
             "title": "RemeshModifier",
             "type": "object",
             "properties": {
                 "name": {
-                    "$ref": "#/definitions/ModifierType"
+                    "title": "Name",
+                    "enum": [
+                        "remesh"
+                    ],
+                    "type": "string"
                 },
                 "mode": {
                     "title": "Mode",
@@ -555,36 +476,51 @@
             },
             "required": [
                 "name"
-            ]
+            ],
+            "additionalProperties": false
         },
-        "SmoothModifier": {
-            "title": "SmoothModifier",
+        "FlattenVerticesModifier": {
+            "title": "FlattenVerticesModifier",
             "type": "object",
             "properties": {
                 "name": {
-                    "$ref": "#/definitions/ModifierType"
+                    "title": "Name",
+                    "enum": [
+                        "flatten_vertices"
+                    ],
+                    "type": "string"
                 },
-                "factor": {
-                    "title": "Factor",
-                    "default": 0.6,
+                "max_linked_face_num": {
+                    "title": "Max Linked Face Num",
+                    "default": 6,
+                    "type": "integer"
+                },
+                "max_bumpy_height": {
+                    "title": "Max Bumpy Height",
+                    "default": 0.15,
                     "type": "number"
                 },
                 "iterations": {
                     "title": "Iterations",
-                    "default": 3,
+                    "default": 4,
                     "type": "integer"
                 }
             },
             "required": [
                 "name"
-            ]
+            ],
+            "additionalProperties": false
         },
         "TriangulateModifier": {
             "title": "TriangulateModifier",
             "type": "object",
             "properties": {
                 "name": {
-                    "$ref": "#/definitions/ModifierType"
+                    "title": "Name",
+                    "enum": [
+                        "triangulate"
+                    ],
+                    "type": "string"
                 },
                 "keep_custom_normals": {
                     "title": "Keep Custom Normals",
@@ -604,6 +540,29 @@
             },
             "required": [
                 "name"
+            ],
+            "additionalProperties": false
+        },
+        "MeshModifier": {
+            "title": "MeshModifier",
+            "discriminator": {
+                "propertyName": "name",
+                "mapping": {
+                    "remesh": "#/definitions/RemeshModifier",
+                    "flatten_vertices": "#/definitions/FlattenVerticesModifier",
+                    "triangulate": "#/definitions/TriangulateModifier"
+                }
+            },
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/RemeshModifier"
+                },
+                {
+                    "$ref": "#/definitions/FlattenVerticesModifier"
+                },
+                {
+                    "$ref": "#/definitions/TriangulateModifier"
+                }
             ]
         },
         "MarsDicomMeshModel": {
@@ -676,26 +635,7 @@
                     "default": [],
                     "type": "array",
                     "items": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/definitions/BaseMeshModifier"
-                            },
-                            {
-                                "$ref": "#/definitions/CorrectiveSmoothModifier"
-                            },
-                            {
-                                "$ref": "#/definitions/DecimateModifier"
-                            },
-                            {
-                                "$ref": "#/definitions/RemeshModifier"
-                            },
-                            {
-                                "$ref": "#/definitions/SmoothModifier"
-                            },
-                            {
-                                "$ref": "#/definitions/TriangulateModifier"
-                            }
-                        ]
+                        "$ref": "#/definitions/MeshModifier"
                     }
                 }
             },
