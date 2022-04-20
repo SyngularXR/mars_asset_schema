@@ -625,16 +625,6 @@
                     "default": true,
                     "type": "boolean"
                 },
-                "is_dominant": {
-                    "title": "[InstantMesh] Generate a tri/quad dominant mesh instead of a pure tri/quad mesh.",
-                    "default": false,
-                    "type": "boolean"
-                },
-                "is_remesh": {
-                    "title": "Represent the flag of applying remesh modifier (blender).",
-                    "default": true,
-                    "type": "boolean"
-                },
                 "high_res_mesh_face_num": {
                     "title": "Represent the maximum triangle face numbers of the high-resolution mesh (for baking textures).",
                     "default": 300000,
@@ -666,11 +656,6 @@
                             "$ref": "#/definitions/VolumeFloatRange"
                         }
                     ]
-                },
-                "octree_depth": {
-                    "title": "Sets the resolution of the output. Low values will generate larger facesrelative to the input, higher values will generate a denser output.",
-                    "default": 9,
-                    "type": "integer"
                 },
                 "threshold": {
                     "title": "Intensity threshold Values to build the mesh.",
@@ -955,8 +940,6 @@
                         "is_enabled": false,
                         "is_enabled_texture": true,
                         "is_image_coordinate": true,
-                        "is_dominant": false,
-                        "is_remesh": true,
                         "high_res_mesh_face_num": 300000,
                         "mesh_face_num": 200000,
                         "mesh_min_component_ratio": 0.05,
@@ -965,7 +948,6 @@
                             "min": 0.0001,
                             "max": 0.01
                         },
-                        "octree_depth": 9,
                         "threshold": {
                             "min": 8,
                             "max": 256
