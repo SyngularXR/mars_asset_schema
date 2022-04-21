@@ -761,10 +761,52 @@
                 }
             }
         },
+        "InputSource": {
+            "title": "InputSource",
+            "description": "An enumeration.",
+            "enum": [
+                "raw",
+                "up_stream"
+            ]
+        },
+        "BlendMode": {
+            "title": "BlendMode",
+            "description": "An enumeration.",
+            "enum": [
+                "lighten",
+                "overlay"
+            ]
+        },
         "RealESRGanModifier": {
             "title": "RealESRGanModifier",
             "type": "object",
             "properties": {
+                "scale": {
+                    "title": "Scale",
+                    "default": 2,
+                    "type": "number"
+                },
+                "net_scale": {
+                    "title": "Net Scale",
+                    "default": 2,
+                    "type": "integer"
+                },
+                "input": {
+                    "default": "up_stream",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/InputSource"
+                        }
+                    ]
+                },
+                "blend_mode": {
+                    "default": "overlay",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/BlendMode"
+                        }
+                    ]
+                },
                 "name": {
                     "title": "Name",
                     "enum": [
@@ -776,16 +818,6 @@
                     "title": "Model",
                     "default": "realesrgan2",
                     "type": "string"
-                },
-                "scale": {
-                    "title": "Scale",
-                    "default": 2,
-                    "type": "number"
-                },
-                "net_scale": {
-                    "title": "Net Scale",
-                    "default": 2,
-                    "type": "integer"
                 }
             },
             "required": [
@@ -797,6 +829,32 @@
             "title": "BSRGanModifier",
             "type": "object",
             "properties": {
+                "scale": {
+                    "title": "Scale",
+                    "default": 2,
+                    "type": "number"
+                },
+                "net_scale": {
+                    "title": "Net Scale",
+                    "default": 2,
+                    "type": "integer"
+                },
+                "input": {
+                    "default": "up_stream",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/InputSource"
+                        }
+                    ]
+                },
+                "blend_mode": {
+                    "default": "overlay",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/BlendMode"
+                        }
+                    ]
+                },
                 "name": {
                     "title": "Name",
                     "enum": [
@@ -808,16 +866,6 @@
                     "title": "Model",
                     "default": "bsrganx2",
                     "type": "string"
-                },
-                "scale": {
-                    "title": "Scale",
-                    "default": 2,
-                    "type": "number"
-                },
-                "net_scale": {
-                    "title": "Net Scale",
-                    "default": 2,
-                    "type": "integer"
                 }
             },
             "required": [
