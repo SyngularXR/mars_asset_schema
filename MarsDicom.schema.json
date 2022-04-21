@@ -841,8 +841,7 @@
                 {
                     "$ref": "#/definitions/BSRGanModifier"
                 }
-            ],
-            "additionalProperties": false
+            ]
         },
         "ImageFilterItems": {
             "title": "ImageFilterItems",
