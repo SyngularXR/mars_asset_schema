@@ -809,6 +809,8 @@
                     ]
                 },
                 "blend_mode": {
+                    "title": "The blend mode of the modifier.",
+                    "description": "The purpose of specifying the value is to blend the output with the previous modifier output. If the modifier is the first one, the blend mode would be using overlay mode.",
                     "default": "overlay",
                     "allOf": [
                         {
@@ -866,6 +868,8 @@
                     ]
                 },
                 "blend_mode": {
+                    "title": "The blend mode of the modifier.",
+                    "description": "The purpose of specifying the value is to blend the output with the previous modifier output. If the modifier is the first one, the blend mode would be using overlay mode.",
                     "default": "overlay",
                     "allOf": [
                         {
