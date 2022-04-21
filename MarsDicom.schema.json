@@ -782,16 +782,20 @@
             "type": "object",
             "properties": {
                 "scale": {
-                    "title": "Scale",
+                    "title": "The scale of the output image.",
+                    "description": "If the value was specified to 0.5, the output resolution would be the same to the input image.",
                     "default": 2,
                     "type": "number"
                 },
                 "net_scale": {
-                    "title": "Net Scale",
+                    "title": "The net scale of the image.",
+                    "description": "The net scale value would be used to enlarge the image during the prediction",
                     "default": 2,
                     "type": "integer"
                 },
                 "input": {
+                    "title": "The input source of the modifier.",
+                    "description": "The purpose of specifying the value is to tell the modifier use the original image data, or the up stream modifier output.",
                     "default": "up_stream",
                     "allOf": [
                         {
@@ -808,14 +812,14 @@
                     ]
                 },
                 "name": {
-                    "title": "Name",
+                    "title": "The name of the modifier.",
                     "enum": [
                         "realesrgan"
                     ],
                     "type": "string"
                 },
                 "model": {
-                    "title": "Model",
+                    "title": "The name of the model.",
                     "default": "realesrgan2",
                     "type": "string"
                 }
@@ -830,16 +834,20 @@
             "type": "object",
             "properties": {
                 "scale": {
-                    "title": "Scale",
+                    "title": "The scale of the output image.",
+                    "description": "If the value was specified to 0.5, the output resolution would be the same to the input image.",
                     "default": 2,
                     "type": "number"
                 },
                 "net_scale": {
-                    "title": "Net Scale",
+                    "title": "The net scale of the image.",
+                    "description": "The net scale value would be used to enlarge the image during the prediction",
                     "default": 2,
                     "type": "integer"
                 },
                 "input": {
+                    "title": "The input source of the modifier.",
+                    "description": "The purpose of specifying the value is to tell the modifier use the original image data, or the up stream modifier output.",
                     "default": "up_stream",
                     "allOf": [
                         {
@@ -856,14 +864,14 @@
                     ]
                 },
                 "name": {
-                    "title": "Name",
+                    "title": "The name of the modifier.",
                     "enum": [
                         "bsrgan"
                     ],
                     "type": "string"
                 },
                 "model": {
-                    "title": "Model",
+                    "title": "The name of the model.",
                     "default": "bsrganx2",
                     "type": "string"
                 }
