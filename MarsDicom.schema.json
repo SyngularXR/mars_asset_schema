@@ -781,6 +781,11 @@
             "title": "RealESRGanModifier",
             "type": "object",
             "properties": {
+                "is_enabled": {
+                    "title": "Represent the flag of active the modifier.",
+                    "default": true,
+                    "type": "boolean"
+                },
                 "scale": {
                     "title": "The scale of the output image.",
                     "description": "If the value was specified to 0.5, the output resolution would be the same to the input image.",
@@ -833,6 +838,11 @@
             "title": "BSRGanModifier",
             "type": "object",
             "properties": {
+                "is_enabled": {
+                    "title": "Represent the flag of active the modifier.",
+                    "default": true,
+                    "type": "boolean"
+                },
                 "scale": {
                     "title": "The scale of the output image.",
                     "description": "If the value was specified to 0.5, the output resolution would be the same to the input image.",
