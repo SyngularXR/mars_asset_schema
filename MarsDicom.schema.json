@@ -761,77 +761,88 @@
                 }
             }
         },
-        "SITKFilterItems": {
-            "title": "SITKFilterItems",
-            "description": "An enumeration.",
-            "enum": [
-                "DiscreteGaussianImageFilter",
-                "UnsharpMaskImageFilter",
-                "EnhanceVolumeImageFilter",
-                "DenoisingVolumeImageFilter",
-                "SyngularVolumeImageFilter",
-                "BSRGanVolumeImageFilter"
-            ]
-        },
-        "SITKFilter": {
-            "title": "SITKFilter",
+        "RealESRGanModifier": {
+            "title": "RealESRGanModifier",
             "type": "object",
             "properties": {
                 "name": {
-                    "title": "SimpleITK Image Filter Name",
-                    "description": "The ImageFilter module contains definitions for a pre-defined set of filters.\n>DiscreteGaussianImageFilter: Blurs an image by separable convolution with discrete gaussian kernels. This filter performs Gaussian blurring by separable convolution of an image and a discrete Gaussian operator (kernel).\n>UnsharpMaskImageFilter: Edge enhancement filter.\n",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/SITKFilterItems"
-                        }
-                    ]
+                    "title": "Name",
+                    "enum": [
+                        "realesrgan"
+                    ],
+                    "type": "string"
                 },
-                "is_enabled": {
-                    "title": "Enable flag",
-                    "description": "Represent the available states.",
-                    "default": true,
-                    "type": "boolean"
+                "model": {
+                    "title": "Model",
+                    "default": "realesrgan2",
+                    "type": "string"
                 },
-                "param": {
-                    "title": "Filter Argument",
-                    "description": "Represent volume image filter parameters. Refer to the module \"sitk_image_filters\" forlearning the usage of each parameters.",
-                    "type": "object"
+                "scale": {
+                    "title": "Scale",
+                    "default": 2,
+                    "type": "number"
+                },
+                "net_scale": {
+                    "title": "Net Scale",
+                    "default": 2,
+                    "type": "integer"
                 }
             },
             "required": [
-                "name",
-                "param"
+                "name"
             ],
-            "examples": [
-                {
-                    "enable": true,
-                    "name": "UnsharpMaskImageFilter",
-                    "param": {
-                        "amount": 2,
-                        "sigmas": 1
-                    }
+            "additionalProperties": false
+        },
+        "BSRGanModifier": {
+            "title": "BSRGanModifier",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "enum": [
+                        "bsrgan"
+                    ],
+                    "type": "string"
                 },
-                {
-                    "name": "EnhanceVolumeImageFilter",
-                    "param": {
-                        "model": "models-cunet",
-                        "sr_factor": 0,
-                        "scale": 2
-                    }
+                "model": {
+                    "title": "Model",
+                    "default": "bsrganx2",
+                    "type": "string"
                 },
-                {
-                    "name": "DenoisingVolumeImageFilter",
-                    "param": {
-                        "level": 15
-                    }
+                "scale": {
+                    "title": "Scale",
+                    "default": 2,
+                    "type": "number"
                 },
-                {
-                    "name": "BSRGanVolumeImageFilter",
-                    "param": {
-                        "model": "bsrganx2"
-                    }
+                "net_scale": {
+                    "title": "Net Scale",
+                    "default": 2,
+                    "type": "integer"
                 }
-            ]
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": false
+        },
+        "ImageModifier": {
+            "title": "ImageModifier",
+            "discriminator": {
+                "propertyName": "name",
+                "mapping": {
+                    "realesrgan": "#/definitions/RealESRGanModifier",
+                    "bsrgan": "#/definitions/BSRGanModifier"
+                }
+            },
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/RealESRGanModifier"
+                },
+                {
+                    "$ref": "#/definitions/BSRGanModifier"
+                }
+            ],
+            "additionalProperties": false
         },
         "ImageFilterItems": {
             "title": "ImageFilterItems",
@@ -1047,7 +1058,7 @@
                     "default": [],
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/SITKFilter"
+                        "$ref": "#/definitions/ImageModifier"
                     }
                 },
                 "interpolation": {
