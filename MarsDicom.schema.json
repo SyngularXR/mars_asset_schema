@@ -781,6 +781,13 @@
             "title": "RealESRGanModifier",
             "type": "object",
             "properties": {
+                "name": {
+                    "title": "The name of the modifier.",
+                    "enum": [
+                        "RealESRGan"
+                    ],
+                    "type": "string"
+                },
                 "is_enabled": {
                     "title": "Represent the flag of active the modifier.",
                     "default": true,
@@ -798,7 +805,7 @@
                     "default": 2,
                     "type": "integer"
                 },
-                "input": {
+                "input_source": {
                     "title": "The input source of the modifier.",
                     "description": "The purpose of specifying the value is to tell the modifier use the original image data, or the up stream modifier output.",
                     "default": "up_stream",
@@ -817,13 +824,6 @@
                             "$ref": "#/definitions/BlendMode"
                         }
                     ]
-                },
-                "name": {
-                    "title": "The name of the modifier.",
-                    "enum": [
-                        "realesrgan"
-                    ],
-                    "type": "string"
                 },
                 "model": {
                     "title": "The name of the model.",
@@ -840,6 +840,13 @@
             "title": "BSRGanModifier",
             "type": "object",
             "properties": {
+                "name": {
+                    "title": "The name of the modifier.",
+                    "enum": [
+                        "BSRGan"
+                    ],
+                    "type": "string"
+                },
                 "is_enabled": {
                     "title": "Represent the flag of active the modifier.",
                     "default": true,
@@ -857,7 +864,7 @@
                     "default": 2,
                     "type": "integer"
                 },
-                "input": {
+                "input_source": {
                     "title": "The input source of the modifier.",
                     "description": "The purpose of specifying the value is to tell the modifier use the original image data, or the up stream modifier output.",
                     "default": "up_stream",
@@ -876,13 +883,6 @@
                             "$ref": "#/definitions/BlendMode"
                         }
                     ]
-                },
-                "name": {
-                    "title": "The name of the modifier.",
-                    "enum": [
-                        "bsrgan"
-                    ],
-                    "type": "string"
                 },
                 "model": {
                     "title": "The name of the model.",
@@ -900,8 +900,8 @@
             "discriminator": {
                 "propertyName": "name",
                 "mapping": {
-                    "realesrgan": "#/definitions/RealESRGanModifier",
-                    "bsrgan": "#/definitions/BSRGanModifier"
+                    "RealESRGan": "#/definitions/RealESRGanModifier",
+                    "BSRGan": "#/definitions/BSRGanModifier"
                 }
             },
             "anyOf": [
