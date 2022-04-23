@@ -1129,7 +1129,7 @@
                         }
                     ]
                 },
-                "image_filter": {
+                "image_modifiers": {
                     "title": "Filters (SimpleITK) e.g., GaussianBlur / Unsharp mask filter.",
                     "description": "Apply imaging filters to enhance the 3d volume data.",
                     "default": [],
