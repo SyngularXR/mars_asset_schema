@@ -782,7 +782,7 @@
             "type": "object",
             "properties": {
                 "name": {
-                    "title": "The name of the modifier.",
+                    "title": "Name",
                     "enum": [
                         "RealESRGan"
                     ],
@@ -793,16 +793,25 @@
                     "default": true,
                     "type": "boolean"
                 },
+                "model": {
+                    "title": "The name of the model.",
+                    "default": "realesrgan2",
+                    "type": "string"
+                },
                 "scale": {
                     "title": "The scale of the output image.",
                     "description": "If the value was specified to 0.5, the output resolution would be the same to the input image.",
                     "default": 2,
+                    "minimum": 1,
+                    "maximum": 2,
                     "type": "number"
                 },
                 "net_scale": {
                     "title": "The net scale of the image.",
                     "description": "The net scale value would be used to enlarge the image during the prediction",
                     "default": 2,
+                    "minimum": 1,
+                    "maximum": 2,
                     "type": "integer"
                 },
                 "input_source": {
@@ -824,11 +833,6 @@
                             "$ref": "#/definitions/BlendMode"
                         }
                     ]
-                },
-                "model": {
-                    "title": "The name of the model.",
-                    "default": "realesrgan2",
-                    "type": "string"
                 }
             },
             "required": [
@@ -841,7 +845,7 @@
             "type": "object",
             "properties": {
                 "name": {
-                    "title": "The name of the modifier.",
+                    "title": "Name",
                     "enum": [
                         "BSRGan"
                     ],
@@ -852,16 +856,25 @@
                     "default": true,
                     "type": "boolean"
                 },
+                "model": {
+                    "title": "The name of the model.",
+                    "default": "bsrganx2",
+                    "type": "string"
+                },
                 "scale": {
                     "title": "The scale of the output image.",
                     "description": "If the value was specified to 0.5, the output resolution would be the same to the input image.",
                     "default": 2,
+                    "minimum": 1,
+                    "maximum": 2,
                     "type": "number"
                 },
                 "net_scale": {
                     "title": "The net scale of the image.",
                     "description": "The net scale value would be used to enlarge the image during the prediction",
                     "default": 2,
+                    "minimum": 1,
+                    "maximum": 2,
                     "type": "integer"
                 },
                 "input_source": {
@@ -883,11 +896,6 @@
                             "$ref": "#/definitions/BlendMode"
                         }
                     ]
-                },
-                "model": {
-                    "title": "The name of the model.",
-                    "default": "bsrganx2",
-                    "type": "string"
                 }
             },
             "required": [
