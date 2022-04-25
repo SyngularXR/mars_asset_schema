@@ -921,55 +921,6 @@
                 }
             ]
         },
-        "ImageFilterItems": {
-            "title": "ImageFilterItems",
-            "description": "An enumeration.",
-            "enum": [
-                "Waifu2xImageFilter",
-                "ESRGANImageFilter",
-                "SwinIRImageFilter",
-                "SyngularImageFilter"
-            ]
-        },
-        "EnhanceImageFilter": {
-            "title": "EnhanceImageFilter",
-            "type": "object",
-            "properties": {
-                "name": {
-                    "title": "2D Image enhancement filter name.",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/ImageFilterItems"
-                        }
-                    ]
-                },
-                "is_enabled": {
-                    "title": "Enable flag",
-                    "description": "Represent the available states.",
-                    "default": true,
-                    "type": "boolean"
-                },
-                "param": {
-                    "title": "Filter Argument",
-                    "description": "Represent image filter function parameters. Refer to the module \"Image_enhance_filters.py\" forlearning the usage of each paramters.",
-                    "type": "object"
-                }
-            },
-            "required": [
-                "name",
-                "param"
-            ],
-            "examples": [
-                {
-                    "enable": true,
-                    "name": "Waifu2xImageFilter",
-                    "param": {
-                        "sr_factor": 1,
-                        "scale": 1
-                    }
-                }
-            ]
-        },
         "MarsDicomInterpolation": {
             "title": "MarsDicomInterpolation",
             "description": "Interpolate new slices to the dicom raw data. The export volume intensity would\nbe resampled from (threshold.min, threshold.max) to range (0,255) {uint8}.\n\nArgs:\n    BaseModel ([type]): [description]",
@@ -995,15 +946,6 @@
                     "description": "e.g., \"2\" iterations mean interpolating \"3\" new slices. \"3\" iterations mean interpolating \"7\" new slices.",
                     "default": 1,
                     "type": "integer"
-                },
-                "enhance_filter": {
-                    "title": "Enhance Image Filters e.g., Waifu2xImageFilter.",
-                    "description": "Apply imaging filters to enhance the 2d image data. e.g., super-resolution / denoising",
-                    "default": [],
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/EnhanceImageFilter"
-                    }
                 }
             }
         },
@@ -1145,8 +1087,7 @@
                         "is_enabled": false,
                         "name": "CyclicGen",
                         "model": "cyclicgen_large",
-                        "iteration": 1,
-                        "enhance_filter": []
+                        "iteration": 1
                     },
                     "allOf": [
                         {
