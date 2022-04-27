@@ -1007,17 +1007,6 @@
                     "default": true,
                     "type": "boolean"
                 },
-                "is_cropped": {
-                    "title": "Represent the flag of involving global cropping masks on the specific segment.",
-                    "default": true,
-                    "type": "boolean"
-                },
-                "is_optimized": {
-                    "title": "Represent the flag of involving data optimization",
-                    "description": "The current data optimization processing includes:\n> flip\n> rescale intensity\n> invert intensity\n> apply image filters\n> apply clipping box\nIt would involve the global configs if the segmentation doesn't have override values.",
-                    "default": true,
-                    "type": "boolean"
-                },
                 "mesh": {
                     "title": "Represent the attributes of generating mesh",
                     "description": "Building segmentation mesh would involve various utility tools, The MarsDicomMeshModel could help represent the specific attributes that could be involved in the mesh building tools.",
