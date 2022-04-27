@@ -1091,7 +1091,6 @@
             "examples": [
                 {
                     "name": "Bone",
-                    "is_optimized": true,
                     "threshold": {
                         "min": 1100,
                         "max": 5000
