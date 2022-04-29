@@ -921,7 +921,6 @@
                 },
                 "model": {
                     "title": "The name of the model.",
-                    "default": "None",
                     "type": "string"
                 },
                 "scale": {
