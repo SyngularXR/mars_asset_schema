@@ -384,35 +384,6 @@
                 }
             ]
         },
-        "ThresholdRange": {
-            "title": "ThresholdRange",
-            "description": "Represent the threshold range values (Region of interest)\n\n    ",
-            "type": "object",
-            "properties": {
-                "min": {
-                    "title": "The lower threshold of the Range",
-                    "minimum": -10000,
-                    "maximum": 10000,
-                    "type": "integer"
-                },
-                "max": {
-                    "title": "The upper threshold of the Range",
-                    "minimum": -10000,
-                    "maximum": 10000,
-                    "type": "integer"
-                }
-            },
-            "required": [
-                "min",
-                "max"
-            ],
-            "examples": [
-                {
-                    "min": 0,
-                    "max": 3000
-                }
-            ]
-        },
         "VolumeFloatRange": {
             "title": "VolumeFloatRange",
             "description": "Represent the volume range values (Unit: M3)\n\n    ",
@@ -439,6 +410,35 @@
                 {
                     "min": 0.0001,
                     "max": 1
+                }
+            ]
+        },
+        "ThresholdRange": {
+            "title": "ThresholdRange",
+            "description": "Represent the threshold range values (Region of interest)\n\n    ",
+            "type": "object",
+            "properties": {
+                "min": {
+                    "title": "The lower threshold of the Range",
+                    "minimum": -10000,
+                    "maximum": 10000,
+                    "type": "integer"
+                },
+                "max": {
+                    "title": "The upper threshold of the Range",
+                    "minimum": -10000,
+                    "maximum": 10000,
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "min",
+                "max"
+            ],
+            "examples": [
+                {
+                    "min": 0,
+                    "max": 3000
                 }
             ]
         },
@@ -712,18 +712,10 @@
                     "default": 2,
                     "type": "integer"
                 },
-                "rescale_intensity": {
-                    "title": "Applies a linear transformation to the intensity levels of the input Image.",
-                    "description": "The filter is useful for clean up the segmentation that would be used for registration.Applies pixel-wise a linear transformation to the intensity values of input image pixels. The linear transformation is defined by the user in terms of the minimum and maximum values that the output image should have.",
-                    "default": {
-                        "min": 0,
-                        "max": 0
-                    },
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/ThresholdRange"
-                        }
-                    ]
+                "gaussian_sigma": {
+                    "title": "This filters perform a gaussian bluring with sigma in physical space . The output image will be of real type .",
+                    "default": 0.0,
+                    "type": "number"
                 },
                 "volume_threshold": {
                     "title": "Represent the minimum / maximum volume threshold of the model (cubic meter)",
@@ -1031,10 +1023,7 @@
                         "mesh_face_num": 200000,
                         "mesh_min_component_ratio": 0.05,
                         "smooth_level": 2,
-                        "rescale_intensity": {
-                            "min": 0,
-                            "max": 0
-                        },
+                        "gaussian_sigma": 0.0,
                         "volume_threshold": {
                             "min": 0.0001,
                             "max": 0.1
