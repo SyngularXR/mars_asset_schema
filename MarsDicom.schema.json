@@ -920,7 +920,7 @@
                     "type": "boolean"
                 },
                 "model": {
-                    "title": "The name of the model.",
+                    "title": "Model",
                     "type": "string"
                 },
                 "scale": {
