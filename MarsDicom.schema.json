@@ -712,11 +712,6 @@
                     "default": 2,
                     "type": "integer"
                 },
-                "gaussian_sigma": {
-                    "title": "This filters perform a gaussian bluring with sigma in physical space . The output image will be of real type .",
-                    "default": 0.0,
-                    "type": "number"
-                },
                 "volume_threshold": {
                     "title": "Represent the minimum / maximum volume threshold of the model (cubic meter)",
                     "default": {
@@ -908,13 +903,42 @@
             ],
             "additionalProperties": false
         },
+        "GaussianBlurModifier": {
+            "title": "GaussianBlurModifier",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "default": "GaussianBlurModifier",
+                    "enum": [
+                        "GaussianBlurModifier"
+                    ],
+                    "type": "string"
+                },
+                "is_enabled": {
+                    "title": "Represent the flag of active the modifier.",
+                    "default": true,
+                    "type": "boolean"
+                },
+                "sigma": {
+                    "title": "The sigma value of the gaussian blur.",
+                    "description": "The sigma value is the standard deviation of the gaussian distribution.",
+                    "default": 2,
+                    "minimum": 0.0,
+                    "maximum": 10.0,
+                    "type": "number"
+                }
+            },
+            "additionalProperties": false
+        },
         "ImageModifier": {
             "title": "ImageModifier",
             "discriminator": {
                 "propertyName": "name",
                 "mapping": {
                     "RealESRGan": "#/definitions/RealESRGanModifier",
-                    "BSRGan": "#/definitions/BSRGanModifier"
+                    "BSRGan": "#/definitions/BSRGanModifier",
+                    "GaussianBlurModifier": "#/definitions/GaussianBlurModifier"
                 }
             },
             "anyOf": [
@@ -923,6 +947,9 @@
                 },
                 {
                     "$ref": "#/definitions/BSRGanModifier"
+                },
+                {
+                    "$ref": "#/definitions/GaussianBlurModifier"
                 }
             ]
         },
@@ -1023,7 +1050,6 @@
                         "mesh_face_num": 200000,
                         "mesh_min_component_ratio": 0.05,
                         "smooth_level": 2,
-                        "gaussian_sigma": 0.0,
                         "volume_threshold": {
                             "min": 0.0001,
                             "max": 0.1
