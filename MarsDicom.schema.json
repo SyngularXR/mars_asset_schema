@@ -707,6 +707,11 @@
                     "default": 0.05,
                     "type": "number"
                 },
+                "volume_ref": {
+                    "title": "Represent the name of the reference segment volume.",
+                    "description": "Specify the reference segment volume to skip re-building the volume data, as some of the segmentation could share the same volume data for building mesh.",
+                    "type": "string"
+                },
                 "smooth_level": {
                     "title": "Represent the smooth level. Higher value may lose some details on the mesh.",
                     "default": 2,
@@ -794,7 +799,7 @@
                     "type": "boolean"
                 },
                 "model": {
-                    "title": "The name of the model.",
+                    "title": "The name of the pre-trained model.",
                     "default": "realesrgan2",
                     "type": "string"
                 },
@@ -857,7 +862,7 @@
                     "type": "boolean"
                 },
                 "model": {
-                    "title": "The name of the model.",
+                    "title": "The name of the pre-trained model.",
                     "default": "bsrganx2",
                     "type": "string"
                 },
@@ -1091,6 +1096,7 @@
                         "high_res_mesh_face_num": 300000,
                         "mesh_face_num": 200000,
                         "mesh_min_component_ratio": 0.05,
+                        "volume_ref": null,
                         "smooth_level": 2,
                         "volume_threshold": {
                             "min": 0.0001,
