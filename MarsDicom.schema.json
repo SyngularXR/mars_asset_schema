@@ -1,170 +1,4 @@
 {
-    "title": "MarsDicomModel",
-    "type": "object",
-    "properties": {
-        "flip": {
-            "title": "Flip volume along a specified axis",
-            "description": "Represent the axis for flipping volume model. \ne.g., Value (0,1,0) means flip model along the Y-axis",
-            "default": {
-                "x": 0,
-                "y": 0,
-                "z": 0
-            },
-            "allOf": [
-                {
-                    "$ref": "#/definitions/vectorInt3d"
-                }
-            ]
-        },
-        "cropping": {
-            "title": "Present the cropping masks for views (Axial/Coronal/Sagittal)",
-            "description": "It would be used to clean up the useless volumes from the source data. Both CT and MRI dicom data may contains some hardware accessories, we could specify the mask textures to clean up those data from three axis views.",
-            "default": [],
-            "type": "array",
-            "items": {
-                "$ref": "#/definitions/MarsDicomMaskCropModel"
-            }
-        },
-        "clipping_box": {
-            "title": "3D volume clipping box",
-            "description": "Represent the clipping boarder to keep the interest 3d volume dataset.\nDicom Data and Coordinates: https://bit.ly/3esubxI",
-            "default": {
-                "width": 0,
-                "height": 0,
-                "depth": 0,
-                "offset_x": 0,
-                "offset_y": 0,
-                "offset_z": 0
-            },
-            "allOf": [
-                {
-                    "$ref": "#/definitions/ThresholdRange3D"
-                }
-            ]
-        },
-        "dicom_type": {
-            "title": "Dicom Dataset Type",
-            "description": "Represent the dataset type of the Dicom slices. \nWe have some predefined gradient colors representing the 3d \nshapes for the specific grayscale ranges in Unreal Engine.",
-            "default": "ct",
-            "allOf": [
-                {
-                    "$ref": "#/definitions/DicomType"
-                }
-            ]
-        },
-        "description": {
-            "title": "Description of the Series",
-            "description": "Most of the information could be fetched from the \ndicom metadata header. We still encourage to add some extra \ninformation as much as possible to help others understand \nthe data context more easily.",
-            "default": "",
-            "type": "string"
-        },
-        "modality": {
-            "title": "Represent the axes of scanning slices (slice orientation)",
-            "description": "Represent the default view of the dicom slices. Some tools \nmay need to transform the default view (reslice the cuts) making the \nregistration. There are three different views for selecting:\n > AXIAL\n> CORONAL\n> SAGITTAL\n",
-            "default": "axial",
-            "allOf": [
-                {
-                    "$ref": "#/definitions/DicomModality"
-                }
-            ]
-        },
-        "patient": {
-            "title": "Represent the patient hash code.",
-            "description": "We would use an unique hash code to bind the resources for a specified patient. Hash code could be generated through command \"tars genmd5 [config name]\"",
-            "default": "",
-            "type": "string"
-        },
-        "source": {
-            "title": "The path of the dicom data",
-            "description": "It supports many ways to represent the source path:\nGoogle Drive Folder: it starts with header \"gd:\" and along with the folder GUID \n> (e.g., GD:1_YVtQVbtEV_GwNv5033-xNU-rtEp_Acu\n\nPerforce (P4): it starts with header \"p4:// and along with the full depot folder path. \n> (e.g., p4:data/dicom/demo_pelvis_001)",
-            "default": "",
-            "type": "string"
-        },
-        "output": {
-            "title": "Output path",
-            "description": "volume data (*.mhd/*.mha) would be exported to the output path.",
-            "default": "",
-            "type": "string"
-        },
-        "transform": {
-            "title": "Transform Vector",
-            "description": "Represent transformation matrix of the volume dataset.\n[TODO] \nIntroduce some examples of how to use transformation vector]",
-            "default": {
-                "x": 2,
-                "y": 0,
-                "z": 1
-            },
-            "allOf": [
-                {
-                    "$ref": "#/definitions/vectorInt3d"
-                }
-            ]
-        },
-        "scale_ratio": {
-            "title": "Scale volume by a specified ratio",
-            "default": 1.0,
-            "type": "number"
-        },
-        "resample_spacing": {
-            "title": "Set the output image spacing.",
-            "description": "Resample the volume dataset with new output spacing. It would use the default dicom spacingif there was no customized spacing values.",
-            "default": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "allOf": [
-                {
-                    "$ref": "#/definitions/vectorFloat3d"
-                }
-            ]
-        },
-        "segmentation": {
-            "title": "Multiple thresholds segmentation",
-            "description": "Each segmentation volume would be exported individually.The segmentation name will be the suffix of the volume file name.\nThe exported volume data could be polished through the neural network [model] config name.",
-            "default": [],
-            "type": "array",
-            "items": {
-                "$ref": "#/definitions/MarsDicomSegmentationModel"
-            }
-        },
-        "guid": {
-            "title": "Config GUID",
-            "description": "Represent the GUID value",
-            "default": "",
-            "type": "string"
-        },
-        "publish": {
-            "title": "Publishing state",
-            "description": "Represent the index value of the publishing state.There are four different state level to control the config visiblity for different dev route: \n0-> Not publish (e.g. config tempalte)\n1-> Publish to the internel developing stage\n2-> Publish to the BETA testing stage\n3 ~ 9 -> Placeholders for the new requirements of other stages\n10-> Publish to the Live game",
-            "default": 1,
-            "minimum": 0,
-            "maximum": 10,
-            "type": "integer"
-        },
-        "parent": {
-            "title": "Config Parent Path",
-            "description": "Represent the parent path, it would be used to perform a full copy of the object payload. Some of the settings are inherited from parent, the reset of settings are overrided by itself.",
-            "default": "",
-            "type": "string"
-        },
-        "tags": {
-            "title": "Object Tags Information",
-            "description": "Represent the object categories",
-            "default": [],
-            "minItems": 1,
-            "type": "array",
-            "items": {
-                "type": "string"
-            }
-        },
-        "name": {
-            "title": "Object Name",
-            "description": "It would be updated to the config file name automatically.It's a read-only property.",
-            "default": "",
-            "type": "string"
-        }
-    },
     "additionalProperties": false,
     "definitions": {
         "vectorInt3d": {
@@ -673,99 +507,6 @@
                 }
             ]
         },
-        "MarsDicomMeshModel": {
-            "title": "MarsDicomMeshModel",
-            "type": "object",
-            "properties": {
-                "is_enabled": {
-                    "title": "Represent the flag of generating volume mesh.",
-                    "default": false,
-                    "type": "boolean"
-                },
-                "is_enabled_texture": {
-                    "title": "Represent the flag of baking mesh textures with studio lighting scene.",
-                    "default": true,
-                    "type": "boolean"
-                },
-                "is_image_coordinate": {
-                    "title": "Represent the flag of ignoring the dicom origin (patient coordinate).",
-                    "default": true,
-                    "type": "boolean"
-                },
-                "high_res_mesh_face_num": {
-                    "title": "Represent the maximum triangle face numbers of the high-resolution mesh (for baking textures).",
-                    "default": 300000,
-                    "type": "integer"
-                },
-                "mesh_face_num": {
-                    "title": "Represent the maximum triangle face numbers of the export mesh.",
-                    "default": 200000,
-                    "type": "integer"
-                },
-                "mesh_min_component_ratio": {
-                    "title": "Represent ratio of the min isolated connected components comparing to the total triangle numbers.",
-                    "default": 0.05,
-                    "type": "number"
-                },
-                "volume_ref": {
-                    "title": "Represent the name of the reference segment volume.",
-                    "description": "Specify the reference segment volume to skip re-building the volume data, as some of the segmentation could share the same volume data for building mesh.",
-                    "type": "string"
-                },
-                "smooth_level": {
-                    "title": "Represent the smooth level. Higher value may lose some details on the mesh.",
-                    "default": 2,
-                    "type": "integer"
-                },
-                "volume_threshold": {
-                    "title": "Represent the minimum / maximum volume threshold of the model (cubic meter)",
-                    "default": {
-                        "min": 0.0001,
-                        "max": 0.1
-                    },
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/VolumeFloatRange"
-                        }
-                    ]
-                },
-                "threshold": {
-                    "title": "Intensity threshold Values to build the mesh.",
-                    "description": "If the threshold range was invalid, it would calculate the values from the dependent segmentation",
-                    "default": {
-                        "min": 8,
-                        "max": 256
-                    },
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/ThresholdRange"
-                        }
-                    ]
-                },
-                "modifiers": {
-                    "title": "Represent the modifiers of generating mesh.",
-                    "description": "Building segmentation mesh would involve various Mesh Modifiers",
-                    "default": [],
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/MeshModifier"
-                    }
-                }
-            },
-            "examples": {
-                "is_enabled": true,
-                "is_dominant": false,
-                "is_enabled_texture": true,
-                "high_res_mesh_face_num": 500000,
-                "mesh_face_num": 300000,
-                "mesh_min_component_ratio": 0.05,
-                "smooth_level": 1,
-                "threshold": {
-                    "min": 8,
-                    "max": 256
-                }
-            }
-        },
         "InputSource": {
             "title": "InputSource",
             "description": "An enumeration.",
@@ -965,11 +706,159 @@
                     ]
                 },
                 "sigma": {
-                    "title": "The sigma value of the gaussian blur.",
+                    "title": "Calculate a multidimensional median filter.",
                     "description": "The sigma value is the standard deviation of the gaussian distribution.",
                     "default": 2,
                     "minimum": 0.0,
                     "maximum": 10.0,
+                    "type": "number"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": false
+        },
+        "MedianModifier": {
+            "title": "MedianModifier",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "enum": [
+                        "MedianModifier"
+                    ],
+                    "type": "string"
+                },
+                "is_enabled": {
+                    "title": "Represent the flag of active the modifier.",
+                    "default": true,
+                    "type": "boolean"
+                },
+                "model": {
+                    "title": "Model",
+                    "type": "string"
+                },
+                "scale": {
+                    "title": "The scale of the output image.",
+                    "description": "If the value was specified to 0.5, the output resolution would be the same to the input image.",
+                    "default": 1,
+                    "minimum": 1,
+                    "maximum": 2,
+                    "type": "integer"
+                },
+                "net_scale": {
+                    "title": "The net scale of the image.",
+                    "description": "The net scale value would be used to enlarge the image during the prediction",
+                    "default": 2,
+                    "minimum": 1,
+                    "maximum": 2,
+                    "type": "integer"
+                },
+                "input_source": {
+                    "title": "The input source of the modifier.",
+                    "description": "The purpose of specifying the value is to tell the modifier use the original image data, or the up stream modifier output.",
+                    "default": "up_stream",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/InputSource"
+                        }
+                    ]
+                },
+                "blend_mode": {
+                    "title": "The blend mode of the modifier.",
+                    "description": "The purpose of specifying the value is to blend the output with the previous modifier output. If the modifier is the first one, the blend mode would be using overlay mode.",
+                    "default": "overlay",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/BlendMode"
+                        }
+                    ]
+                },
+                "sigma": {
+                    "title": "The sigma value of the gaussian blur.",
+                    "description": "The sigma value is the standard deviation of the gaussian distribution.",
+                    "default": 3,
+                    "minimum": 0.0,
+                    "maximum": 10.0,
+                    "type": "number"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": false
+        },
+        "SharpeningModifier": {
+            "title": "SharpeningModifier",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "enum": [
+                        "MedianModifier"
+                    ],
+                    "type": "string"
+                },
+                "is_enabled": {
+                    "title": "Represent the flag of active the modifier.",
+                    "default": true,
+                    "type": "boolean"
+                },
+                "model": {
+                    "title": "Model",
+                    "type": "string"
+                },
+                "scale": {
+                    "title": "The scale of the output image.",
+                    "description": "If the value was specified to 0.5, the output resolution would be the same to the input image.",
+                    "default": 1,
+                    "minimum": 1,
+                    "maximum": 2,
+                    "type": "integer"
+                },
+                "net_scale": {
+                    "title": "The net scale of the image.",
+                    "description": "The net scale value would be used to enlarge the image during the prediction",
+                    "default": 2,
+                    "minimum": 1,
+                    "maximum": 2,
+                    "type": "integer"
+                },
+                "input_source": {
+                    "title": "The input source of the modifier.",
+                    "description": "The purpose of specifying the value is to tell the modifier use the original image data, or the up stream modifier output.",
+                    "default": "up_stream",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/InputSource"
+                        }
+                    ]
+                },
+                "blend_mode": {
+                    "title": "The blend mode of the modifier.",
+                    "description": "The purpose of specifying the value is to blend the output with the previous modifier output. If the modifier is the first one, the blend mode would be using overlay mode.",
+                    "default": "overlay",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/BlendMode"
+                        }
+                    ]
+                },
+                "sigma": {
+                    "title": "The sigma value of the gaussian blur.",
+                    "description": "The sigma value is the standard deviation of the gaussian distribution.",
+                    "default": 3,
+                    "minimum": 0.0,
+                    "maximum": 10.0,
+                    "type": "number"
+                },
+                "alpha": {
+                    "title": "The sigma value of the gaussian blur.",
+                    "description": "The sigma value is the standard deviation of the gaussian distribution.",
+                    "default": 30,
+                    "minimum": 0.0,
+                    "maximum": 30.0,
                     "type": "number"
                 }
             },
@@ -985,7 +874,8 @@
                 "mapping": {
                     "RealESRGan": "#/definitions/RealESRGanModifier",
                     "BSRGan": "#/definitions/BSRGanModifier",
-                    "GaussianBlurModifier": "#/definitions/GaussianBlurModifier"
+                    "GaussianBlurModifier": "#/definitions/GaussianBlurModifier",
+                    "MedianModifier": "#/definitions/SharpeningModifier"
                 }
             },
             "anyOf": [
@@ -997,8 +887,121 @@
                 },
                 {
                     "$ref": "#/definitions/GaussianBlurModifier"
+                },
+                {
+                    "$ref": "#/definitions/MedianModifier"
+                },
+                {
+                    "$ref": "#/definitions/SharpeningModifier"
                 }
             ]
+        },
+        "MarsDicomMeshModel": {
+            "title": "MarsDicomMeshModel",
+            "type": "object",
+            "properties": {
+                "is_enabled": {
+                    "title": "Represent the flag of generating volume mesh.",
+                    "default": false,
+                    "type": "boolean"
+                },
+                "is_enabled_texture": {
+                    "title": "Represent the flag of baking mesh textures with studio lighting scene.",
+                    "default": true,
+                    "type": "boolean"
+                },
+                "is_image_coordinate": {
+                    "title": "Represent the flag of ignoring the dicom origin (patient coordinate).",
+                    "default": true,
+                    "type": "boolean"
+                },
+                "high_res_mesh_face_num": {
+                    "title": "Represent the maximum triangle face numbers of the high-resolution mesh (for baking textures).",
+                    "default": 300000,
+                    "minimum": 0,
+                    "maximum": 2000000,
+                    "type": "integer"
+                },
+                "mesh_face_num": {
+                    "title": "Represent the maximum triangle face numbers of the export mesh.",
+                    "default": 200000,
+                    "minimum": 0,
+                    "maximum": 2000000,
+                    "type": "integer"
+                },
+                "mesh_min_component_ratio": {
+                    "title": "Represent ratio of the min isolated connected components comparing to the total triangle numbers.",
+                    "default": 0.05,
+                    "type": "number"
+                },
+                "volume_ref": {
+                    "title": "Represent the name of the reference segment volume.",
+                    "description": "Specify the reference segment volume to skip re-building the volume data, as some of the segmentation could share the same volume data for building mesh.",
+                    "default": "",
+                    "type": "string"
+                },
+                "smooth_level": {
+                    "title": "Represent the smooth level. Higher value may lose some details on the mesh.",
+                    "default": 2,
+                    "type": "integer"
+                },
+                "volume_threshold": {
+                    "title": "Represent the minimum / maximum volume threshold of the model (cubic meter)",
+                    "default": {
+                        "min": 0.0001,
+                        "max": 0.1
+                    },
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/VolumeFloatRange"
+                        }
+                    ]
+                },
+                "threshold": {
+                    "title": "Intensity threshold Values to build the mesh.",
+                    "description": "If the threshold range was invalid, it would calculate the values from the dependent segmentation",
+                    "default": {
+                        "min": 8,
+                        "max": 256
+                    },
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ThresholdRange"
+                        }
+                    ]
+                },
+                "modifiers": {
+                    "title": "Represent the modifiers of generating mesh.",
+                    "description": "Building segmentation mesh would involve various Mesh Modifiers",
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/MeshModifier"
+                    }
+                },
+                "image_modifiers": {
+                    "title": "Apply image modifier before generating mesh. e.g., GaussianBlur / Unsharp mask filter.",
+                    "description": "For getting a good quality mesh, it is recommended to apply image modifiers to make some tunning on the image raw data. Especially, the image data is a reference from other segmentation.",
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ImageModifier"
+                    }
+                }
+            },
+            "examples": {
+                "is_enabled": true,
+                "is_dominant": false,
+                "is_enabled_texture": true,
+                "high_res_mesh_face_num": 500000,
+                "mesh_face_num": 300000,
+                "mesh_min_component_ratio": 0.05,
+                "smooth_level": 1,
+                "threshold": {
+                    "min": 8,
+                    "max": 256
+                }
+            }
         },
         "MarsDicomInterpolation": {
             "title": "MarsDicomInterpolation",
@@ -1012,12 +1015,12 @@
                 },
                 "name": {
                     "title": "Represent the interpolation resolve name. (default: CyclicGen)",
-                    "default": "CyclicGen",
+                    "default": "frame_interpolate",
                     "type": "string"
                 },
                 "model": {
                     "title": "Represent the pre-trained model of the specific resolver.",
-                    "default": "cyclicgen_large",
+                    "default": "style",
                     "type": "string"
                 },
                 "iteration": {
@@ -1096,7 +1099,7 @@
                         "high_res_mesh_face_num": 300000,
                         "mesh_face_num": 200000,
                         "mesh_min_component_ratio": 0.05,
-                        "volume_ref": null,
+                        "volume_ref": "",
                         "smooth_level": 2,
                         "volume_threshold": {
                             "min": 0.0001,
@@ -1106,7 +1109,8 @@
                             "min": 8,
                             "max": 256
                         },
-                        "modifiers": []
+                        "modifiers": [],
+                        "image_modifiers": []
                     },
                     "allOf": [
                         {
@@ -1154,8 +1158,8 @@
                     "description": "Predict new dicom series to increase the resolution of the dicom volume.",
                     "default": {
                         "is_enabled": false,
-                        "name": "CyclicGen",
-                        "model": "cyclicgen_large",
+                        "name": "frame_interpolate",
+                        "model": "style",
                         "iteration": 1
                     },
                     "allOf": [
@@ -1180,5 +1184,171 @@
                 }
             ]
         }
-    }
+    },
+    "properties": {
+        "flip": {
+            "title": "Flip volume along a specified axis",
+            "description": "Represent the axis for flipping volume model. \ne.g., Value (0,1,0) means flip model along the Y-axis",
+            "default": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/vectorInt3d"
+                }
+            ]
+        },
+        "cropping": {
+            "title": "Present the cropping masks for views (Axial/Coronal/Sagittal)",
+            "description": "It would be used to clean up the useless volumes from the source data. Both CT and MRI dicom data may contains some hardware accessories, we could specify the mask textures to clean up those data from three axis views.",
+            "default": [],
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/MarsDicomMaskCropModel"
+            }
+        },
+        "clipping_box": {
+            "title": "3D volume clipping box",
+            "description": "Represent the clipping boarder to keep the interest 3d volume dataset.\nDicom Data and Coordinates: https://bit.ly/3esubxI",
+            "default": {
+                "width": 0,
+                "height": 0,
+                "depth": 0,
+                "offset_x": 0,
+                "offset_y": 0,
+                "offset_z": 0
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/ThresholdRange3D"
+                }
+            ]
+        },
+        "dicom_type": {
+            "title": "Dicom Dataset Type",
+            "description": "Represent the dataset type of the Dicom slices. \nWe have some predefined gradient colors representing the 3d \nshapes for the specific grayscale ranges in Unreal Engine.",
+            "default": "ct",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/DicomType"
+                }
+            ]
+        },
+        "description": {
+            "title": "Description of the Series",
+            "description": "Most of the information could be fetched from the \ndicom metadata header. We still encourage to add some extra \ninformation as much as possible to help others understand \nthe data context more easily.",
+            "default": "",
+            "type": "string"
+        },
+        "modality": {
+            "title": "Represent the axes of scanning slices (slice orientation)",
+            "description": "Represent the default view of the dicom slices. Some tools \nmay need to transform the default view (reslice the cuts) making the \nregistration. There are three different views for selecting:\n > AXIAL\n> CORONAL\n> SAGITTAL\n",
+            "default": "axial",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/DicomModality"
+                }
+            ]
+        },
+        "patient": {
+            "title": "Represent the patient hash code.",
+            "description": "We would use an unique hash code to bind the resources for a specified patient. Hash code could be generated through command \"tars genmd5 [config name]\"",
+            "default": "",
+            "type": "string"
+        },
+        "source": {
+            "title": "The path of the dicom data",
+            "description": "It supports many ways to represent the source path:\nGoogle Drive Folder: it starts with header \"gd:\" and along with the folder GUID \n> (e.g., GD:1_YVtQVbtEV_GwNv5033-xNU-rtEp_Acu\n\nPerforce (P4): it starts with header \"p4:// and along with the full depot folder path. \n> (e.g., p4:data/dicom/demo_pelvis_001)",
+            "default": "",
+            "type": "string"
+        },
+        "output": {
+            "title": "Output path",
+            "description": "volume data (*.mhd/*.mha) would be exported to the output path.",
+            "default": "",
+            "type": "string"
+        },
+        "transform": {
+            "title": "Transform Vector",
+            "description": "Represent transformation matrix of the volume dataset.\n[TODO] \nIntroduce some examples of how to use transformation vector]",
+            "default": {
+                "x": 2,
+                "y": 0,
+                "z": 1
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/vectorInt3d"
+                }
+            ]
+        },
+        "scale_ratio": {
+            "title": "Scale volume by a specified ratio",
+            "default": 1.0,
+            "type": "number"
+        },
+        "resample_spacing": {
+            "title": "Set the output image spacing.",
+            "description": "Resample the volume dataset with new output spacing. It would use the default dicom spacingif there was no customized spacing values.",
+            "default": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/vectorFloat3d"
+                }
+            ]
+        },
+        "segmentation": {
+            "title": "Multiple thresholds segmentation",
+            "description": "Each segmentation volume would be exported individually.The segmentation name will be the suffix of the volume file name.\nThe exported volume data could be polished through the neural network [model] config name.",
+            "default": [],
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/MarsDicomSegmentationModel"
+            }
+        },
+        "guid": {
+            "title": "Config GUID",
+            "description": "Represent the GUID value",
+            "default": "",
+            "type": "string"
+        },
+        "publish": {
+            "title": "Publishing state",
+            "description": "Represent the index value of the publishing state.There are four different state level to control the config visiblity for different dev route: \n0-> Not publish (e.g. config tempalte)\n1-> Publish to the internel developing stage\n2-> Publish to the BETA testing stage\n3 ~ 9 -> Placeholders for the new requirements of other stages\n10-> Publish to the Live game",
+            "default": 1,
+            "minimum": 0,
+            "maximum": 10,
+            "type": "integer"
+        },
+        "parent": {
+            "title": "Config Parent Path",
+            "description": "Represent the parent path, it would be used to perform a full copy of the object payload. Some of the settings are inherited from parent, the reset of settings are overrided by itself.",
+            "default": "",
+            "type": "string"
+        },
+        "tags": {
+            "title": "Object Tags Information",
+            "description": "Represent the object categories",
+            "default": [],
+            "minItems": 1,
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "name": {
+            "title": "Object Name",
+            "description": "It would be updated to the config file name automatically.It's a read-only property.",
+            "default": "",
+            "type": "string"
+        }
+    },
+    "title": "MarsDicomModel",
+    "type": "object"
 }
