@@ -796,7 +796,7 @@
                 "name": {
                     "title": "Name",
                     "enum": [
-                        "MedianModifier"
+                        "SharpeningModifier"
                     ],
                     "type": "string"
                 },
@@ -875,7 +875,8 @@
                     "RealESRGan": "#/definitions/RealESRGanModifier",
                     "BSRGan": "#/definitions/BSRGanModifier",
                     "GaussianBlurModifier": "#/definitions/GaussianBlurModifier",
-                    "MedianModifier": "#/definitions/SharpeningModifier"
+                    "MedianModifier": "#/definitions/MedianModifier",
+                    "SharpeningModifier": "#/definitions/SharpeningModifier"
                 }
             },
             "anyOf": [
